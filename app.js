@@ -1,3 +1,29 @@
+// app.js 상단에 추가
+let timeOffset = 0; // 서버와 내 PC 시간의 차이
+
+// 외부 API를 통해 실제 한국 표준시(KST) 가져오기
+async function syncServerTime() {
+  try {
+    const response = await fetch('http://worldtimeapi.org/api/timezone/Asia/Seoul');
+    const data = await response.json();
+    const realServerTime = new Date(data.datetime).getTime();
+    const myLocalTime = new Date().getTime();
+    
+    timeOffset = realServerTime - myLocalTime; // 오차 저장
+    console.log("시간 동기화 완료. 오차(ms):", timeOffset);
+  } catch (error) {
+    console.error("시간 동기화 실패, 로컬 시간으로 대체합니다.", error);
+  }
+}
+
+// 정확한 현재 시간을 반환하는 함수
+function getAccurateTime() {
+  return new Date().getTime() + timeOffset;
+}
+
+// 앱 시작 시 시간 동기화 실행
+syncServerTime();
+
 // app.js
 import { db } from "./firebase-config.js";
 import { collection, onSnapshot, doc, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
