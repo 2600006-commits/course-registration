@@ -4,7 +4,7 @@ let timeOffset = 0; // 서버와 내 PC 시간의 차이
 // 외부 API를 통해 실제 한국 표준시(KST) 가져오기
 async function syncServerTime() {
   try {
-    const response = await fetch('http://worldtimeapi.org/api/timezone/Asia/Seoul');
+    const response = await fetch('https://worldtimeapi.org/api/timezone/Asia/Seoul');
     const data = await response.json();
     const realServerTime = new Date(data.datetime).getTime();
     const myLocalTime = new Date().getTime();
