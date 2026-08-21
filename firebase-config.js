@@ -21,4 +21,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+
+// db, auth를 다른 파일(app.js)에서 가져다 쓸 수 있도록 export
+export const db = getFirestore(app);
+export const auth = getAuth(app);

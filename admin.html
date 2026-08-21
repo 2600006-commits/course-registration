@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 대시보드</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>⚙️ 관리자 대시보드</h1>
+    <div class="controls">
+      <button id="logout-btn">로그아웃</button>
+    </div>
+  </header>
+
+  <main>
+    <p id="admin-status">권한 확인 중입니다...</p>
+
+    <!-- 권한이 확인되기 전까지는 숨겨둡니다 -->
+    <section id="admin-content" style="display:none;">
+      <p>관리자 전용 화면입니다. 여기에 과목 추가/수정/삭제, 신청자 명단 조회 등의
+        관리 기능을 이어서 구현하면 됩니다.</p>
+    </section>
+  </main>
+
+  <script type="module" src="admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // admins 컬렉션에 자기 uid로 된 문서가 있으면 관리자로 간주
+    function isAdmin() {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // ── 과목 목록 ──────────────────────────────
+    // 읽기: 누구나 가능 (로그인 없이도 목록은 보여야 하므로)
+    // 생성/삭제: 관리자만
+    // 수정: 관리자는 전체 허용. 학생(로그인된 사용자)은 "enrolledCount를 1만큼만
+    //       증가시키는" 신청 트랜잭션만 허용하고, 그 외 필드 변경이나
+    //       정원 초과, 2 이상 증가 등은 모두 거부합니다.
+    match /courses/{courseId} {
+      allow read: if true;
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() ||
+        (
+          isSignedIn() &&
+          request.resource.data.diff(resource.data).affectedKeys().hasOnly(['enrolledCount']) &&
+          request.resource.data.enrolledCount == resource.data.enrolledCount + 1 &&
+          request.resource.data.enrolledCount <= resource.data.capacity
+        );
+    }
+
+    // ── 수강신청 내역 ───────────────────────────
+    // 생성: 로그인(익명 포함)된 사용자만, 필수 필드가 모두 있고 상태가 'enrolled'일 때만
+    // 읽기/수정/삭제: 관리자만 (학생이 남의 신청 내역을 보거나 조작하지 못하도록)
+    match /registrations/{regId} {
+      allow create: if isSignedIn() &&
+        request.resource.data.keys().hasAll(['studentId', 'studentName', 'courseId', 'status']) &&
+        request.resource.data.status == 'enrolled';
+      allow read, update, delete: if isAdmin();
+    }
+
+    // ── 신청 시작 시각 등 전역 설정 ───────────────
+    // 읽기: 누구나 (타이머 표시용) / 쓰기: 관리자만
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ── 관리자 목록 ────────────────────────────
+    // 본인 uid 문서인지 여부만 클라이언트에서 확인 가능하도록 읽기만 허용.
+    // 등록/삭제는 클라이언트에서 절대 불가 (Firebase 콘솔이나 Admin SDK로만 처리)
+    match /admins/{uid} {
+      allow read: if isSignedIn() && request.auth.uid == uid;
+      allow write: if false;
+    }
+  }
+}
