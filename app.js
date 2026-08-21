@@ -111,3 +111,32 @@ document.getElementById("confirm-apply-btn").addEventListener("click", async () 
 document.getElementById("close-modal-btn").addEventListener("click", () => {
   modal.style.display = "none";
 });
+
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { auth } from "./firebase-config.js";
+
+const adminLoginModal = document.getElementById("admin-login-modal");
+
+// 헤더의 관리자 버튼 클릭 시
+document.getElementById("admin-btn").addEventListener("click", () => {
+  adminLoginModal.style.display = "flex";
+});
+
+// 로그인 버튼 클릭 시
+document.getElementById("admin-login-btn").addEventListener("click", async () => {
+  const email = document.getElementById("admin-email").value;
+  const password = document.getElementById("admin-password").value;
+
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    alert("관리자 로그인 성공!");
+    adminLoginModal.style.display = "none";
+    
+    // 로그인 성공 시 관리자 전용 대시보드 화면(admin.html)으로 이동시키거나
+    // 현재 화면의 UI를 관리자용으로 렌더링하도록 변경합니다.
+    window.location.href = "admin.html"; 
+    
+  } catch (error) {
+    alert("로그인 실패: 이메일이나 비밀번호를 확인해주세요.");
+  }
+});
