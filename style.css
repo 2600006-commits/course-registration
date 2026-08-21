@@ -1,0 +1,47 @@
+:root {
+  --bg-color: #f9f9f9;
+  --card-bg: #ffffff;
+  --text-color: #333;
+  --primary-color: #0056b3;
+  --border-color: #ddd;
+}
+
+body.dark-theme {
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-color: #e0e0e0;
+  --primary-color: #4da3ff;
+  --border-color: #333;
+}
+
+body {
+  margin: 0; padding: 0;
+  font-family: 'Pretendard', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: 0.3s;
+}
+
+header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1rem 2rem; border-bottom: 1px solid var(--border-color);
+}
+
+.timer-section { text-align: center; margin: 2rem 0; font-size: 2rem; font-weight: bold; }
+
+.course-list {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; padding: 1rem 2rem;
+}
+
+.course-card {
+  background: var(--card-bg); padding: 1.5rem; border-radius: 8px;
+  border: 1px solid var(--border-color); box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.modal {
+  display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5); justify-content: center; align-items: center;
+}
+.modal-content {
+  background: var(--card-bg); padding: 2rem; border-radius: 8px; width: 300px; display: flex; flex-direction: column; gap: 10px;
+}

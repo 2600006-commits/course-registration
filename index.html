@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>수강신청 시스템</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 네트워크 끊김 안내 -->
+  <div id="network-banner" style="display:none;">오프라인 상태입니다. 네트워크를 확인해주세요.</div>
+
+  <header>
+    <h1>2026 수강신청</h1>
+    <div class="controls">
+      <button id="theme-toggle">🌓 다크모드</button>
+      <button id="admin-btn">⚙️ 관리자</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- 타이머 영역 -->
+    <section class="timer-section">
+      <h2 id="timer-display">00:00:00</h2>
+      <p id="timer-label">신청 시작까지 남은 시간</p>
+    </section>
+
+    <!-- 과목 리스트 영역 -->
+    <section class="course-list" id="course-list">
+      <!-- JavaScript로 과목 카드가 여기에 생성됩니다 -->
+    </section>
+  </main>
+
+  <!-- 신청 모달창 (숨김 처리) -->
+  <div id="apply-modal" class="modal">
+    <div class="modal-content">
+      <h3>수강신청</h3>
+      <p id="modal-course-name"></p>
+      <input type="text" id="student-id" placeholder="학번 입력">
+      <input type="text" id="student-name" placeholder="이름 입력">
+      <button id="confirm-apply-btn">신청하기</button>
+      <button id="close-modal-btn">취소</button>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
