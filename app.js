@@ -25,7 +25,7 @@ function getAccurateTime() {
 syncServerTime();
 
 // app.js
-import { db } from "./firebase-config.js";
+import { db } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { collection, onSnapshot, doc, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 // UI 요소
@@ -113,7 +113,7 @@ document.getElementById("close-modal-btn").addEventListener("click", () => {
 });
 
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { auth } from "./firebase-config.js";
+import { auth } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const adminLoginModal = document.getElementById("admin-login-modal");
 
